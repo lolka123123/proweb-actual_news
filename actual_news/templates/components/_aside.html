@@ -1,0 +1,22 @@
+{% load static %}
+
+<aside class="aside">
+    <div class="aside-menu">
+
+        <a href="{% url 'index' %}">Все</a>
+        {% for category in categories %}
+        <a href="{% url 'category' category.id %}">{{ category.title }}</a>
+        {% endfor %}
+
+    </div>
+
+
+<!--    <a href="#" class="aside-advertising">-->
+<!--        <img src="{% static 'images/ad.webp' %}" alt="">-->
+<!--        <p>Пропал мальчик. Умом не блещит.</p>-->
+<!--    </a>-->
+<!--    <a href="#" class="aside-advertising">-->
+<!--        <p>Место для вашей рекламы</p>-->
+<!--    </a>-->
+
+</aside>

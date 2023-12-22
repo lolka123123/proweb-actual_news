@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+{% load static %}
+
+{% block main %}
+<div class="section-main-post">
+
+    {% if article.image_src %}
+        <img src="{{ article.image_src }}" alt="">
+    {% else %}
+        <img src="{% static 'images/ad.webp' %}" alt="">
+    {% endif %}
+
+
+    <div class="categories">
+        <a href="">{{ article.category.title }}</a>
+    </div>
+
+
+    <h1>{{ article.title }}</h1>
+
+
+    <div class="description">{{ article.description|linebreaks }}</div>
+
+
+
+    <h2>Добавить Комментарий: </h2>
+
+    <form class="add_comment" action="" method="post">
+        {% csrf_token %}
+
+        {% if not request.user.is_authenticated %}
+            {{ form.name }}
+        {% endif %}
+
+        {{ form.text }}
+
+
+        <button>Добавить комментарий</button>
+
+    </form>
+
+
+    {% if comments %}
+    <h2>Комментарии: </h2>
+    <div class="comments">
+        {% for comment in comments %}
+        <div class="comment">
+
+            <div class="delete-comment_success">
+                    <div class="window">
+                        <div class="cancel delete-comment_cancel">
+                            <div class="mark">
+                                <span></span>
+                                <span></span>
+                            </div>
+
+                        </div>
+                        <h3>Удалить комментарий?</h3>
+                        <div class="options">
+                            <a class="button" href="{% url 'delete_comment' comment.id %}">Удалить</a>
+                            <p class="button delete-comment_cancel">Назад</p>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            <div class="user">
+
+                <a href="" class="link">
+
+
+
+
+                    <div class="info">
+
+                        <p class="user-name">{{ comment.name }}</p>
+
+                        <p class="date">{{ comment.created_at|date:"d.m.Y" }}</p>
+
+                    </div>
+                </a>
+
+                {% if comment.profile_id == profile_id %}
+                <p class="delete-comment">Удалить</p>
+                {% endif %}
+
+            </div>
+
+
+            <p>{{ comment.text }}</p>
+
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+</div>
+{% endblock main %}

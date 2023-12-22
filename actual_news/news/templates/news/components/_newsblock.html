@@ -1,0 +1,71 @@
+{% load static %}
+<div class="section-main-newsblock">
+
+
+    <div class="posts">
+        {% if not articles %}
+        Тут пусто
+        {% endif %}
+
+        {% for article in articles %}
+        <div class="post">
+            <div class="section1">
+                <a href="{% url 'article' article.pk %}">
+                    {% if article.image_src %}
+                        <img src="{{ article.image_src }}" alt="">
+                    {% else %}
+                        <img src="{% static 'images/ad.webp' %}" alt="">
+                    {% endif %}
+                </a>
+
+                <div class="categories">
+                    <a href="">{{ article.category.title }}</a>
+                </div>
+                <a href="{% url 'article' article.pk %}" class="text">
+                    <h2 class="title">{{ article.title }}</h2>
+                    <p class="description">{{ article.description|truncatewords:20 }}</p>
+                </a>
+            </div>
+
+
+            <div class="section2" style="margin-top: 20px">
+
+                <div class="info">
+                    <p style="color: #fff">{{ article.created_at|date:"d.m.Y" }}</p>
+
+                    <p style="color: #fff">Рейтинг важности: {{ article.rating }}/5</p>
+
+                    <p style="color: #fff">💬 {{ article.comments.count }}</p>
+                </div>
+            </div>
+
+
+        </div>
+        {% endfor %}
+
+
+
+
+    </div>
+    {% if paginator.num_pages > 1 %}
+    {% if not category_sorted %}
+    <div class="pagination">
+        {% if paginator_has_previous %}
+            <a href="{% url 'index_pagination' paginator_page_previous %}"><-</a>
+        {% endif %}
+
+        {% for page in paginator.page_range %}
+            <a href="{% url 'index_pagination' page %}">{{ page }}</a>
+        {% endfor %}
+
+        {% if paginator_has_next %}
+            <a href="{% url 'index_pagination' paginator_page_next %}">-></a>
+        {% endif %}
+    </div>
+    {% endif %}
+    {% endif %}
+
+    {% include 'news/components/_newsblock_aside.html' %}
+
+
+</div>

@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+{{ title }}
+{% endblock title %}
+
+{% block main %}
+
+<div class="section-main_profile">
+
+    <div class="user">
+
+        {% if profile_image != 'none' %}
+        <img src="{{ profile.image.url }}" alt="">
+        {% else %}
+        <img src="{% static 'images/user.webp' %}" alt="">
+        {% endif %}
+
+
+
+
+        <h2>{{ profile.user.username }}</h2>
+
+        <p>Почта: <span>{{ request.user.email }}</span></p>
+
+        <p>Описание: {{ profile.description }}</p>
+
+    </div>
+
+
+    <div class="buttons">
+
+        <a class="button" href="{% url 'edit_profile' %}">Настройки</a>
+        <a class="button_logout" href="{% url 'logout' %}">Выйти</a>
+
+    </div>
+
+</div>
+
+{% endblock main %}
